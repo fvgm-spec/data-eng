@@ -76,27 +76,3 @@ def get_fundamental_data(symbol: str,
         pass
 
     return r.text
-
-def write_data_to_bucket(file_name:str, mode:str):
-    """
-    Parameters:
-    ----------
-    mode(str): Available write modes are 'append', 'overwrite' and 'overwrite_partitions'
-    """
-
-    path = f"s3://{bucket}/raw-data/{file_name}"
-    #Sending dataframe of corresponding ticker to bucket
-    wr.s3.to_csv(
-        df=df,
-        path=path,
-        index=True,
-        dataset=True,
-        mode=mode
-    )
-
-def read_csv_from_bucket(folder_name:str) -> pd.DataFrame:
-
-    df = wr.s3.read_csv(path = f"s3://{bucket}/raw-data/{folder_name}/",
-                        path_suffix = ".csv"
-)
-    return df
